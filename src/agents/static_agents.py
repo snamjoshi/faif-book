@@ -7,6 +7,7 @@ from types import SimpleNamespace
 
 
 # TODO: Refactor exact agents so they inherit from an ExactAgent base class
+# TODO: Change distributions to log space
 class ExactLinearAgent:
     def __init__(self, params: dict) -> None:
         self.params = SimpleNamespace(**params)
@@ -79,7 +80,7 @@ class ExactLinearUniformPriorAgent:
         
     def infer_state(self, y: float):
         
-        generating_function = GeneratingFunctions.nonlinear_quadratic(
+        generating_function = GeneratingFunctions.linear(
             x_star=self.params.x_range, 
             intercept=self.params.beta_0, 
             slope=self.params.beta_1) 
