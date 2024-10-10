@@ -4,6 +4,7 @@ import src.generating_functions as GeneratingFunctions
 
 from scipy.stats import norm, uniform
 from types import SimpleNamespace
+from typing import Union
 
 
 # TODO: Refactor exact agents so they inherit from an ExactAgent base class
@@ -88,3 +89,21 @@ class ExactLinearUniformPriorAgent:
         self.gen_model = self.generative_model(y, generating_function)
         self.evidence = np.sum(self.gen_model, axis=0)
         self.posterior = self.gen_model / self.evidence
+
+class LinearMaximumLikelihoodAgent:
+    def __init__(self, params: dict) -> None:
+        self.params = SimpleNamespace(**params)
+        
+        self.posterior_mode = None
+        
+    def infer_state(self, y: float) -> Union[float, np.ndarray]:
+        self.posterior_mode = (np.mean(y) - self.params.beta_0) / self.params.beta_1
+        
+class LinearMaximumAprioriAgent:
+    def __init__(self, params: dict) -> None:
+        self.params = SimpleNamespace(**params)
+        
+        self.posterior_mode = None
+        
+    def infer_state(self, y: float) -> Union[float, np.ndarray]:
+        self.posterior_mode = (self.params.beta_1 * (np.mean(y) - self.params.beta_0) + self.params.m_x) / (self.params.beta_1**2 + 1)

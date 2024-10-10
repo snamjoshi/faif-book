@@ -18,5 +18,9 @@ def create_agent(name: str, params: dict):
         return ExactLinearUniformPriorAgent(params=params)
     elif name == "exact_nonlinear":
         return ExactNonlinearAgent(params=params)
+    elif name == "linear_mle_agent":
+        return LinearMaximumLikelihoodAgent(params=params)
+    elif name == "linear_map_agent":
+        return LinearMaximumAprioriAgent(params=params)
     else:
         raise KeyError(f"{name} not supported. Available models: TODO")
