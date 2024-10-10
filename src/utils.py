@@ -15,7 +15,7 @@ def create_agent(name: str, params: dict):
     if name == "exact_linear":
         return ExactLinearAgent(params=params)
     elif name == "exact_linear_flat_prior":
-        return ExactLinearUniformPriorAgent(params=params)
+        return ExactLinearAgent(params=params, uniform_prior=True)
     elif name == "exact_nonlinear":
         return ExactNonlinearAgent(params=params)
     elif name == "linear_mle_agent":
@@ -24,3 +24,6 @@ def create_agent(name: str, params: dict):
         return LinearMaximumAprioriAgent(params=params)
     else:
         raise KeyError(f"{name} not supported. Available models: TODO")
+    
+def validate_parameters():
+    ...

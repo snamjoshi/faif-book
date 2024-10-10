@@ -12,14 +12,26 @@ class StaticLinearEnvironment:
     def __init__(self, params: dict) -> None:
         self.params = SimpleNamespace(**params)
         
-    def generate(self, x_star: float):
-        noise               = Noise.zero_centered_normal(scale=self.params.y_star_std)
-        generating_function = GeneratingFunctions.linear(
+    def build(self, x_star: float):
+        
+        # Bind state to class
+        self.x_star = x_star
+        
+        # Define noise
+        self.noise = Noise.zero_centered_normal(scale=self.params.y_star_std)
+        
+        # Define generating function
+        self.generating_function = GeneratingFunctions.linear(
             x_star=x_star, 
             intercept=self.params.beta_0_star, 
-            slope=self.params.beta_1_star) 
+            slope=self.params.beta_1_star)
         
-        return generating_function + noise
+    def store_history(self):
+        keys = ["x_star", "noise", "generating_function"]
+        values = [self.x_star, self.noise, self.generating_function]
+        
+    def generate(self):
+        return self.generating_function + self.noise
 
 class StaticNonlinearEnvironment:
     def __init__(self, params: dict) -> None:
