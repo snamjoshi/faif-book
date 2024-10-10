@@ -13,3 +13,4 @@ class AgentRegistry(Enum):
     linear_map_agent = "linear_map_agent"
     linear_gradient_descent_mle_agent = "linear_gradient_descent_mle_agent"
     linear_gradient_descent_map_agent = "linear_gradient_descent_map_agent"
+    
