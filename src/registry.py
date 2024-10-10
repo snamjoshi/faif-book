@@ -1,35 +1,15 @@
 from enum import Enum
 
-class MethodRegistry(Enum):
-    ...
+class EnvironmentRegistry(Enum):
+    static_linear = "static_linear"
+    static_nonlinear = "static_nonlinear"
 
-
-def register_method(method_name: str):
-    def decorator(method: callable):
-        ...
-
-
-
-
-
-
-NO_DATASET_ERR = "Dataset {} not in DATASET_REGISTRY! Available datasets are {}"
-DATASET_REGISTRY = {}
-
-
-def RegisterDataset(dataset_name):
-    """Registers a dataset."""
-
-    def decorator(f):
-        DATASET_REGISTRY[dataset_name] = f
-        return f
-
-    return decorator
-
-
-def get_dataset_class(args):
-    if args.dataset not in DATASET_REGISTRY:
-        raise Exception(
-            NO_DATASET_ERR.format(args.dataset, DATASET_REGISTRY.keys()))
-
-    return DATASET_REGISTRY[args.dataset]
+class AgentRegistry(Enum):
+    exact_linear = "exact_linear"
+    exact_linear_flat_prior = "exact_linear_flat_prior"
+    exact_nonlinear = "exact_nonlinear"
+    exact_nonlinear_flat_prior = "exact_nonlinear_flat_prior"
+    linear_mle_agent = "linear_mle_agent"
+    linear_map_agent = "linear_map_agent"
+    linear_gradient_descent_mle_agent = "linear_gradient_descent_mle_agent"
+    linear_gradient_descent_map_agent = "linear_gradient_descent_map_agent"
