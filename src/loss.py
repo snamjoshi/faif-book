@@ -1,39 +1,28 @@
 import torch
 
 from torch.distributions import Normal
+from types import SimpleNamespace
 from typing import Union
 
-def mle_objective(x: float, y: Union[float, torch.tensor], generating_function: callable) -> torch.tensor:
-    
-    # Parameters
-    beta_0 = 3      # Linear generating function intercept
-    beta_1 = 2      # Linear generating function slope
-    var_y  = 0.5    # Likelihood variance
+def linear_mle_objective(x: float, y: Union[float, torch.tensor], params: SimpleNamespace) -> torch.tensor:
     
     # Linear genearting function
-    mu_y   = generating_function(beta_0=beta_0, beta_1=beta_1, x=x)
+    mu_y = params.beta_0 + params.beta_1 * x
     
     # Calculate log-likelihood over samples    
-    log_likelihood = Normal(loc=mu_y, scale=torch.sqrt(var_y)).log_prob(y).sum(axis=0)
+    log_likelihood = Normal(loc=mu_y, scale=params.std_y).log_prob(y).sum(axis=0)
     
     return -log_likelihood
     
-def map_objective(x: float, y: Union[float, torch.tensor], generating_function: callable) -> torch.tensor:
-        
-    # Parameters
-    beta_0 = 3      # Linear generating function intercept
-    beta_1 = 2      # Linear generating function slope
-    var_y  = 0.5    # Likelihood variance
-    m_x    = 2      # Prior mean
-    s_x    = 0.25   # Prior variance
+def linear_map_objective(x: float, y: Union[float, torch.tensor], params: SimpleNamespace) -> torch.tensor:
     
     # Linear generating function
-    mu_y   = generating_function(beta_0=beta_0, beta_1=beta_1, x=x)
+    mu_y = params.beta_0 + params.beta_1 * x
     
     # Calculate log-likelihood over samples    
-    log_likelihood = Normal(loc=mu_y, scale=torch.sqrt(var_y)).log_prob(y).sum(axis=0)
+    log_likelihood = Normal(loc=mu_y, scale=params.std_y).log_prob(y).sum(axis=0)
     
     # Calculate log-prior
-    log_prior = Normal(loc=m_x, scale=s_x).log_prob(x)
+    log_prior = Normal(loc=params.m_x, scale=params.s_x).log_prob(x)
     
     return -(log_likelihood + log_prior)

@@ -39,20 +39,3 @@ class StaticEnvironment:
         
     def generate(self):
         return self.generating_function + self.noise
-
-# class StaticNonlinearEnvironment:
-#     def __init__(self, params: dict) -> None:
-#         self.params = SimpleNamespace(**params)
-        
-#     def noise(self) -> float:
-#         return np.random.normal(loc=0, scale=self.params.y_star_std)
-    
-#     def phi(self, x_star: float) -> float:
-#         return x_star**2
-    
-#     def generating_function(self, x_star: float) -> float:
-#         return self.params.beta_1_star * quadratic(x_star) + self.params.beta_0_star
-    
-#     def generate(self, x_star: float) -> float:
-#         return self.generating_function(x_star) + self.noise()
-    

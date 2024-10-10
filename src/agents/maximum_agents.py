@@ -1,31 +1,54 @@
-class LinearMaximumLikelihoodAgent:
-    def __init__(self, params: dict) -> None:
+from types import SimpleNamespace
+
+from src.analytic import map_hidden_state, mle_hidden_state
+from src.gradient_descent import posterior_mode_gradient_descent
+from src.history import History
+from src.loss import linear_mle_objective, linear_map_objective
+
+class LinearMaximumAgent:
+    def __init__(self, params: dict, prior: bool = False) -> None:
         self.params = SimpleNamespace(**params)
+        self.prior = prior
+        self.history = History()
+    
+    def infer_state(self, y: float) -> None:
         
-        self.posterior_mode = None
+        if self.prior:
+            self.posterior_mode = map_hidden_state(y=y, beta_0=self.params.beta_0, beta_1=self.params.beta_1, m_x=self.params.m_x)
+        else:
+            self.posterior_mode = mle_hidden_state(y=y, beta_0=self.params.beta_0, beta_1=self.params.beta_1)
+            
+    def store_history(self) -> None:
+        self.history.store(key="posterior_mode", value=self.posterior_mode)
         
-    def infer_state(self, y: float) -> Union[float, np.ndarray]:
-        self.posterior_mode = (np.mean(y) - self.params.beta_0) / self.params.beta_1
-        
-class LinearMaximumAprioriAgent:
-    def __init__(self, params: dict) -> None:
-        self.params = SimpleNamespace(**params)
-        
-        self.posterior_mode = None
-        
-    def infer_state(self, y: float) -> Union[float, np.ndarray]:
-        self.posterior_mode = (self.params.beta_1 * (np.mean(y) - self.params.beta_0) + self.params.m_x) / (self.params.beta_1**2 + 1)
+    def get_history(self) -> None:
+        return SimpleNamespace(**self.history.history)
         
 class LinearGradientDescentAgent:
-    def __init__(self, params: dict) -> None:
+    def __init__(self, params: dict, prior: bool = False) -> None:
         self.params = SimpleNamespace(**params)
+        self.history = History()
         
-    def infer_states(self, y: float):
-        history = posterior_mode_gradient_descent(
-            kappa=self.params.kappa,
-            n_iterations=self.params.n_iterations,
-            x_init=self.params.x,
-            obj=self.params.objective
+        if prior:
+            self.objective = linear_map_objective
+        else:
+            self.objective = linear_mle_objective
+        
+    def infer_state(self, y: float) -> None:
+        
+        self.x_history, self.loss_history = posterior_mode_gradient_descent(
+            x_init=self.params.x_init,
+            y=y,
+            obj=self.objective,
+            params=self.params
         )
+    
+    def store_history(self) -> None:
         
-        return history
+        keys = ["x_history", "loss_history"]
+        values = [self.x_history, self.loss_history]
+        
+        self.history.store_multiple(keys, values)
+        
+    def get_history(self) -> None:
+        return SimpleNamespace(**self.history.history)

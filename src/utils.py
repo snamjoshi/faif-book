@@ -1,5 +1,8 @@
 from src.environments.static_environments import *
 from src.agents.exact_agents import *
+from src.agents.maximum_agents import *
+
+# TODO: List all available models via enum
 
 def create_environment(name: str, params: dict):
     if   name == "static_linear":
@@ -9,7 +12,7 @@ def create_environment(name: str, params: dict):
         return StaticEnvironment(params=params, nonlinear=True)
     
     else:
-        raise KeyError(f"{name} not supported. Available models: TODO")
+        raise KeyError(f"{name} not supported. Available environments: TODO")
     
 def create_agent(name: str, params: dict):
     if   name == "exact_linear":
@@ -25,13 +28,19 @@ def create_agent(name: str, params: dict):
         return ExactAgent(params=params, uniform_prior=True, nonlinear=True)
     
     elif name == "linear_mle_agent":
-        return LinearMaximumLikelihoodAgent(params=params)
+        return LinearMaximumAgent(params=params)
     
     elif name == "linear_map_agent":
-        return LinearMaximumAprioriAgent(params=params)
+        return LinearMaximumAgent(params=params, prior=True)
+    
+    elif name == "linear_gradient_descent_mle_agent":
+        return LinearGradientDescentAgent(params=params)
+    
+    elif name == "linear_gradient_descent_map_agent":
+        return LinearGradientDescentAgent(params=params, prior=True)
     
     else:
-        raise KeyError(f"{name} not supported. Available models: TODO")
+        raise KeyError(f"{name} not supported. Available agents: TODO")
     
 def validate_parameters():
     ...
