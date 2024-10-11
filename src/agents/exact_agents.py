@@ -8,6 +8,7 @@ import src.generative_models as GenerativeModels
 
 from src.generative_models import invert_model_exact
 from src.history import History
+from src.maths import loge
 
 
 # TODO: Refactor exact agents so they inherit from an ExactAgent base class
@@ -54,9 +55,9 @@ class ExactAgent:
         
         # Define log generative model for single and multiple samples
         if isinstance(self.y, np.ndarray):
-            self.log_model = np.log(self.likelihood).sum(axis=0) + np.log(self.prior)
+            self.log_model = loge(self.likelihood).sum(axis=0) + loge(self.prior)
         elif isinstance(self.y, float):
-            self.log_model = np.log(self.likelihood) + np.log(self.prior)
+            self.log_model = loge(self.likelihood) + loge(self.prior)
         else:
             raise TypeError("y must either be a float (single sample) or np.ndarray (array of samples).")
         
