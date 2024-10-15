@@ -13,3 +13,6 @@ def mle_beta_1(x: float, y: float) -> float:
 
 def mle_beta_0(x: float, y: float, beta_1: float) -> float:
     return np.mean(y) - beta_1 * np.mean(x)
+
+def mle_theta(X: np.ndarray, y: np.ndarray):
+    return np.linalg.pinv(X) @ y
