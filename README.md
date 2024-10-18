@@ -5,7 +5,7 @@ Jupyter notebooks for the fundamentals of active inference textbook
 ## To do list
 - TODO: Figure out dependency details in requirements.txt
 - TODO: Docker
-- TODO: Create utility functions that allow the user to query each model type for a description. Something like an "agent_info" or "env_info" function.
+- TODO: Create utility functions that allow the user to query each model type for a description. Something like an "agent_info" or "env_info" function. Used through pyproject shortcut?
 - TODO: Pydantic base class checking
 - TODO: Test cases
 - TODO: Tests to run all Jupyter notebooks with no errors

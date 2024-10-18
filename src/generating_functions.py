@@ -16,6 +16,5 @@ def nonlinear_quadratic(x_star: Union[float, np.ndarray],
                         slope: float) -> Union[float, np.ndarray]:
     return slope * quadratic(x_star) + intercept
 
-
-
-    
+def linear_multivariate(X: np.ndarray, theta: np.ndarray):
+    return X.T @ theta  

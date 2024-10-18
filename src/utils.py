@@ -47,3 +47,13 @@ def create_agent(name: str, params: dict):
     
 def validate_parameters():
     ...
+
+def build_data_matrix(X: np.ndarray):
+    
+    # Check if already a data matrix
+    
+    ...
+    
+def assert_data_matrix():
+    # Checks if matrix is a data matrix based on the number of input features
+    ...
