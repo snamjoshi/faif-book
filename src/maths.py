@@ -11,3 +11,6 @@ def quadratic(x: float) -> float:
 def loge(array: np.ndarray) -> np.ndarray:
     array[array == 0] = EPS
     return np.log(array)
+
+def euler_step(x, transition_function, t, dt):
+    return x[t] + dt * transition_function(x[t])

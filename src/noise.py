@@ -6,7 +6,7 @@ def zero_centered_unit_normal():
 def zero_centered_normal(scale):
     return np.random.normal(loc=0, scale=scale)
 
-def generate_white_noise(sigma: np.ndarray, T: int, dt: float, seed: bool=False) -> np.array:
+def generate_white_noise(sigma: np.ndarray, T: int, seed: bool=False) -> np.array:
     """ Generates white noise
     
     Based on Matlab code from Hijne 2020, pp. 55-56.
@@ -22,23 +22,23 @@ def generate_white_noise(sigma: np.ndarray, T: int, dt: float, seed: bool=False)
     """
     
     n = sigma.shape[1]
-    N = len(np.arange(0, T, dt))
 
     if seed:
         np.random.seed(seed)
         
-    omega = np.sqrt(sigma).T * np.random.randn(n, N)   # White noise signal
+    omega = np.sqrt(sigma).T * np.random.randn(n, T)   # White noise signal
     return omega
 
-def white_noise(sigmas: list, T: int, dt: float, seeds: list):
+def white_noise(sigmas: list, T: int, seeds: list):
     # Generates multiple white noise arrays
     
     assert len(sigmas) == len(seeds)
     n_vars = len(sigmas)
     
-    # TODO: Create empty array of the right size
-    # [var, n, T * (1 / dt)]
+    noise = []
     
-    for var in range(n_vars):
-        ...
+    for i in range(n_vars):
+        noise.append(generate_white_noise(sigmas[i], T, seeds[i]))
+        
+    return noise
     

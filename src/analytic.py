@@ -16,3 +16,6 @@ def mle_beta_0(x: float, y: float, beta_1: float) -> float:
 
 def mle_theta(X: np.ndarray, y: np.ndarray):
     return np.linalg.pinv(X) @ y
+
+def grad_F_mu_x(mu_x, e_x, e_y, p_x, p_y, dg_dmu, df_dmu):
+    return p_y * e_y * dg_dmu(mu_x) + p_x * e_x * df_dmu(mu_x)

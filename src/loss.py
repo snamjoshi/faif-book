@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 
 from torch.distributions import Normal
@@ -26,3 +27,6 @@ def linear_map_objective(x: float, y: Union[float, torch.tensor], params: Simple
     log_prior = Normal(loc=params.m_x, scale=params.s_x).log_prob(x)
     
     return -(log_likelihood + log_prior)
+
+def univariate_vfe(e_x, e_y, p_x, p_y):
+    return 0.5 * (p_y * e_y**2 + p_x * e_x**2 + np.log(p_y**-1 * p_x**-1)) 

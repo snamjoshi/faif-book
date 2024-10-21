@@ -61,5 +61,6 @@ def assert_data_matrix():
 def dynamic_grid(bins, dt):
     return np.arange(0, bins, dt)
 
-def split_seed(seed):
-    ...
+def split_seed(seed, n, max_seed=100000):
+    np.random.seed(seed)
+    return np.random.randint(low=1, high=max_seed, size=n)
