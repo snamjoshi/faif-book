@@ -57,3 +57,9 @@ def build_data_matrix(X: np.ndarray):
 def assert_data_matrix():
     # Checks if matrix is a data matrix based on the number of input features
     ...
+    
+def dynamic_grid(bins, dt):
+    return np.arange(0, bins, dt)
+
+def split_seed(seed):
+    ...
