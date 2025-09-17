@@ -57,3 +57,7 @@ def build_data_matrix(X: np.ndarray):
 def assert_data_matrix():
     # Checks if matrix is a data matrix based on the number of input features
     ...
+    
+def pstable(p, eps=1e-10):
+    p[p == 0] = eps
+    return p
